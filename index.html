@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width-device-width, initial-scale=1.0, maximun-scale=1.0, user-scalable=no;">
+	<title>Storage Apsoft</title>
+	<link rel="stylesheet" href="css/jquery.mobile-1.3.1.min.css">
+	<script src="js/cordova-2.7.0.js"></script>		
+	<script src="js/jquery-2.0.0.min.js"></script>
+	<script src="js/jquery.mobile-1.3.1.min.js"></script>
+	<script type="text/javascript" charset="utf-8">
+
+    // Wait for Cordova to load
+    //
+   document.addEventListener("deviceready", onDeviceReady, false);
+
+    // Populate the database 
+    //
+    function populateDB(tx) {
+        tx.executeSql('DROP TABLE IF EXISTS DEMO');
+        tx.executeSql('CREATE TABLE IF NOT EXISTS DEMO (id unique, data,tipo)');
+        tx.executeSql('INSERT INTO DEMO (id, data) VALUES (1, "a")');
+        tx.executeSql('INSERT INTO DEMO (id, data) VALUES (2, "b")');
+		
+    }
+	
+    // Query the database
+    //
+    function queryDB(tx) {
+        tx.executeSql('SELECT * FROM DEMO', [], querySuccess, errorCB);
+    }
+
+    // Query the success callback
+    //
+    function querySuccess(tx, results) {
+		var resultDiv = $('#mydiv');
+		var data = undefined;
+        var len = results.rows.length;
+        console.log("DEMO table Apsoft: " + len + " rows found.");
+        for (var i=0; i<len; i++){
+            console.log("Row = " + i + " ID = " + results.rows.item(i).id + " Data =  " + results.rows.item(i).data);
+			var data = "Row = " + i + " ID = " + results.rows.item(i).id + " Data =  " + results.rows.item(i).data);
+			resultDiv.append(data + "<br>");
+        }
+    }
+
+    // Transaction error callback
+    //
+    function errorCB(err) {
+        console.log("Error processing SQL: "+err.code);
+    }
+
+    // Transaction success callback
+    //
+    function successCB() {
+        var db = window.openDatabase("Database", "1.0", "Cordova Demo", 200000);
+        db.transaction(queryDB, errorCB);
+    }
+
+    // Cordova is ready
+    //
+    function onDeviceReady() {
+        var db = window.openDatabase("Database", "1.0", "Cordova Demo", 200000);
+        db.transaction(populateDB, errorCB, successCB);
+    }
+	
+
+    </script>
+</head>
+<body>	
+    <h1>Example Apsoft Database</h1>
+    <p>Database 1f</p>
+	<div id="mydiv">x</div>	  
+</body>
+</html>

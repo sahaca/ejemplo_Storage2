@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width-device-width, initial-scale=1.0, maximun-scale=1.0, user-scalable=no;">
+	<title>Acelerómetro</title>
+	<link rel="stylesheet" href="css/jquery.mobile-1.3.1.min.css">
+	<script src="js/cordova-2.6.0.js"></script>
+</head> 
+<body>
+	<div data-role="page">
+		<header data-role="header" data-theme="a" data-position="fixed">
+			<h1>Acelerómetro</h1>
+		</header>
+		<section data-role="content" data-theme="e">
+			<form>
+				<div data-role="fieldcontain">
+					<label for="aceleraX">
+						Aceleración en X
+					</label>
+					<input id="aceleraX" name="acelX" type="text" data-mini="true" value="0" readonly>
+				</div>
+				<div data-role="fieldcontain">
+					<label for="aceleraY">
+						Aceleración en Y
+					</label>
+					<input id="aceleraY" name="acelY" type="text" data-mini="true" value="0" readonly>
+				</div>
+				<div data-role="fieldcontain">
+					<label for="aceleraZ">
+						Aceleración en Z
+					</label>
+					<input id="aceleraZ" name="acelZ" type="text" data-mini="true" value="0" readonly>
+				</div>
+				<div data-role="fieldcontain">
+					<button data-mini="true">
+						Detener lectura del Acelerómetro
+					</button>
+				</div>
+			</form>
+		</section>
+		<footer data-role="footer" data-theme="a" data-position="fixed">
+			<h3>2013</h3>
+		</footer>
+	</div>
+	<script src="js/jquery-2.0.0.min.js"></script>
+	<script src="js/jquery.mobile-1.3.1.min.js"></script>
+	<script>
+		var watchID = null;
+		document.addEventListener('deviceready', onDeviceReady, false);
+
+		function onDeviceReady() {
+			startWatch();
+		}
+
+		function startWatch() {
+			var opciones = { frequency: 1000 };
+			watchID = navigator.accelerometer.watchAcceleration(onSuccess, onError, opciones);
+		}
+
+		function stopWatch() {
+			if (watchID) {
+				watchID = navigator.accelerometer.clearWatch(watchID);
+				watchID = null;
+			}
+		}
+
+		function onSuccess(acceleration) {
+			var aceX = document.getElementById('aceleraX');
+			aceX.value = acceleration.x;
+
+			var aceY = document.getElementById('aceleraY');
+			aceY.value = acceleration.y;
+
+			var aceZ = document.getElementById('aceleraZ');
+			aceZ.value = acceleration.z;
+		}
+
+		function onError() {
+			alert('¡Error!');
+		}
+	</script>
+</body>
+</html>
