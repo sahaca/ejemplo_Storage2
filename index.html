@@ -17,16 +17,25 @@
     // Populate the database 
     //
     function populateDB(tx) {
-        tx.executeSql('DROP TABLE IF EXISTS DEMO');
-        tx.executeSql('CREATE TABLE IF NOT EXISTS DEMO (id unique, data)');
-        tx.executeSql('INSERT INTO DEMO (id, data) VALUES (1, "First row")');
-        tx.executeSql('INSERT INTO DEMO (id, data) VALUES (2, "Second row")');
+        tx.executeSql('DROP TABLE IF EXISTS GRUPOS');
+        tx.executeSql('CREATE TABLE IF NOT EXISTS GRUPOS (id unique, data)');
+        tx.executeSql('INSERT INTO GRUPOS (id, data) VALUES (1, "Grupo 01")');
+        tx.executeSql('INSERT INTO GRUPOS (id, data) VALUES (2, "Grupo 02")');
+    }
+	
+	  function populateDB2(tx) {
+        tx.executeSql('DROP TABLE IF EXISTS GRUPOS');
+        tx.executeSql('CREATE TABLE IF NOT EXISTS GRUPOS (id unique, data)');
+        tx.executeSql('INSERT INTO GRUPOS (id, data) VALUES (1, "Grupo 01")');
+        tx.executeSql('INSERT INTO GRUPOS (id, data) VALUES (2, "Grupo 02")');
+		tx.executeSql('INSERT INTO GRUPOS (id, data) VALUES (3, "Grupo 03")');
+        tx.executeSql('INSERT INTO GRUPOS (id, data) VALUES (4, "Grupo 04")');
     }
 
     // Query the database
     //
     function queryDB(tx) {
-        tx.executeSql('SELECT * FROM DEMO', [], querySuccess, errorCB);
+        tx.executeSql('SELECT * FROM GRUPOS', [], querySuccess, errorCB);
     }
 
     // Query the success callback
@@ -35,7 +44,7 @@
 		var resultDiv = $('#mydiv');
 		var data = undefined;
         var len = results.rows.length;
-        console.log("DEMO table Apsoft: " + len + " rows found.");
+        console.log("GRUPOS table Apsoft: " + len + " rows found.");
         for (var i=0; i<len; i++){
             console.log("Row = " + i + " ID = " + results.rows.item(i).id + " Data =  " + results.rows.item(i).data);
 			data = "Row = " + i + " ID = " + results.rows.item(i).id + " Data =  " + results.rows.item(i).data;
@@ -52,22 +61,28 @@
     // Transaction success callback
     //
     function successCB() {
-        var db = window.openDatabase("Database", "1.0", "Cordova Demo", 200000);
+        var db = window.openDatabase("Database", "1.0", "Cordova GRUPOS", 200000);
         db.transaction(queryDB, errorCB);
     }
 
     // Cordova is ready
     //
     function onDeviceReady() {
-        var db = window.openDatabase("Database", "1.0", "Cordova Demo", 200000);
+        var db = window.openDatabase("Database", "1.0", "Cordova GRUPOS", 200000);
         db.transaction(populateDB, errorCB, successCB);
+    }
+	
+	function accion1() {
+        var db = window.openDatabase("Database", "1.0", "Cordova GRUPOS", 200000);
+        db.transaction(populateDB2, errorCB, successCB);
     }
     </script>
 </head>
 <body>	
     <h1>Example Apsoft Database</h1>
     <p>Base de datos Apsoft 1h</p>
-	<p>Tabla: Demo</p>
-	<div id="mydiv">x</div>	  
+	<p>Tabla: GRUPOS</p>
+	<div id="mydiv">x</div>	
+	<p><a href="index.html" data-role="button" data-icon="arrow-r" data-iconpos="right" data-theme="a" onclick="accion1(); return false">Insertar</a></p>
 </body>
 </html>
