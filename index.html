@@ -18,19 +18,13 @@
     //
     function populateDB(tx) {
         tx.executeSql('DROP TABLE IF EXISTS GRUPOS');
-        tx.executeSql('CREATE TABLE IF NOT EXISTS GRUPOS (id unique, data)');
-        tx.executeSql('INSERT INTO GRUPOS (id, data) VALUES (1, "Grupo 01")');
-        tx.executeSql('INSERT INTO GRUPOS (id, data) VALUES (2, "Grupo 02")');
+       // tx.executeSql('CREATE TABLE IF NOT EXISTS GRUPOS (id unique, data)');
+       // tx.executeSql('INSERT INTO GRUPOS (id, data) VALUES (1, "Grupo 01")');
+       // tx.executeSql('INSERT INTO GRUPOS (id, data) VALUES (2, "Grupo 02")');
+	   
     }
 	
-	  function populateDB2(tx) {
-        tx.executeSql('DROP TABLE IF EXISTS GRUPOS');
-        tx.executeSql('CREATE TABLE IF NOT EXISTS GRUPOS (id unique, data)');
-        tx.executeSql('INSERT INTO GRUPOS (id, data) VALUES (1, "Grupo 01")');
-        tx.executeSql('INSERT INTO GRUPOS (id, data) VALUES (2, "Grupo 02")');
-		tx.executeSql('INSERT INTO GRUPOS (id, data) VALUES (3, "Grupo 03")');
-        tx.executeSql('INSERT INTO GRUPOS (id, data) VALUES (4, "Grupo 04")');
-    }
+
 
     // Query the database
     //
@@ -61,19 +55,32 @@
     // Transaction success callback
     //
     function successCB() {
-        var db = window.openDatabase("Database", "1.0", "Cordova GRUPOS", 200000);
+        var db = window.openDatabase("APSOFT", "1.0", "Cordova GRUPOS", 200000);
         db.transaction(queryDB, errorCB);
     }
 
     // Cordova is ready
     //
     function onDeviceReady() {
-        var db = window.openDatabase("Database", "1.0", "Cordova GRUPOS", 200000);
-        db.transaction(populateDB, errorCB, successCB);
+        //var db = window.openDatabase("APSOFT", "1.0", "Cordova GRUPOS", 200000);
+        //db.transaction(populateDB, errorCB, successCB);
     }
 	
-	function accion1() {
-        var db = window.openDatabase("Database", "1.0", "Cordova GRUPOS", 200000);
+	
+	 function populateDB2(tx) {
+	 var valorInput = $("#text_a").val();
+	  console.log("Row = " + valorInput );
+        //tx.executeSql('DROP TABLE IF EXISTS GRUPOS');
+        //tx.executeSql('CREATE TABLE IF NOT EXISTS GRUPOS (id unique , data)');
+		tx.executeSql('CREATE TABLE IF NOT EXISTS GRUPOS (id integer primary key autoincrement , data)');
+        tx.executeSql('INSERT INTO GRUPOS (id,data) VALUES (NULL,"Grupo 01")');
+	    tx.executeSql('INSERT INTO GRUPOS (id,data) VALUES (NULL,"'+valorInput +'")');
+	   // Insertamos un nuevo elemento
+//tx.executeSql('INSERT INTO GRUPOS (id, data) VALUES (?,?)', [NULL, valorInput]);
+    }
+	
+	function accion2() {
+        var db = window.openDatabase("APSOFT", "1.0", "Cordova GRUPOS", 2 * 1024 * 1024);
         db.transaction(populateDB2, errorCB, successCB);
     }
     </script>
@@ -84,5 +91,10 @@
 	<p>Tabla: GRUPOS</p>
 	<div id="mydiv">x</div>	
 	<p><a href="index.html" data-role="button" data-icon="arrow-r" data-iconpos="right" data-theme="a" onclick="accion1(); return false">Insertar</a></p>
+	<p>
+	<label for="clear-demo">Ingrese Texto 1 para guardar en la Tabla:</label>
+	<input type="text" name="text_a" id="text_a" value="" data-clear-btn="true" />
+	<a href="index.html" data-role="button"  data-theme="b" onclick="accion2(); return false">Insertar Nuevo</a>
+	<p>
 </body>
 </html>
