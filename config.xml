@@ -32,8 +32,8 @@
 		Megaproyectos S.A
 	</author>
 
-	<icon src="img/mega2009.png" width="72" height="72" />
-	<icon src="img/mega2009.png" width="48" height="48" />
-	<icon src="img/mega2009.png" width="36" height="36" />
+	<icon src="img/72.png" width="72" height="72" />
+	<icon src="img/48.png" width="48" height="48" />
+	<icon src="img/36.png" width="36" height="36" />
   <plugin name="Storage" value="org.apache.cordova.Storage" />  
 </widget>
